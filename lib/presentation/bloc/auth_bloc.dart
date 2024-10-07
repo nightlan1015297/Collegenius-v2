@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/domain/entities/auth_success.dart';
 import 'package:collegenius/domain/usecases/login_multiple_service.dart';
 import 'package:equatable/equatable.dart';
@@ -44,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await loginToMultipleServices(LoginParams(
       username: event.username,
       password: event.password,
-      websiteIdentifiers: event.websiteIdentifiers,
+      idents: event.websiteIdentifiers,
     ));
 
     // Handle the result of the login attempt.

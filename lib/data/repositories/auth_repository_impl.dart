@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/data_sources/auth_providers/auth_provider_factory.dart';
 import 'package:collegenius/domain/repositories/auth_repository.dart';
 import 'package:collegenius/domain/entities/auth_success.dart';
@@ -32,10 +33,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, AuthSuccess>> login({
     required String username,
     required String password,
-    required String websiteIdentifier,
+    required WebsiteIdentifier ident,
   }) async {
     try {
-      final authProvider = authProviderFactory.getAuthProvider(websiteIdentifier);
+      final authProvider = authProviderFactory.getAuthProvider(ident);
       final authSuccessModel = await authProvider.authenticate(username, password);
       final authSuccess = authSuccessModel.toEntity(); // Convert DTO to entity
       return Right(authSuccess); // Return success result
@@ -62,10 +63,10 @@ class AuthRepositoryImpl implements AuthRepository {
   /// that credentials are missing. Otherwise, it calls the login method with the cached 
   /// username and password to renew the session.
   @override
-  Future<Either<Failure, AuthSuccess>> renewSession({required String websiteIdentifier}) {
+  Future<Either<Failure, AuthSuccess>> renewSession({required WebsiteIdentifier ident}) {
     if (_username == null || _password == null) {
       return Future.value(Left(CredentialUninitFailure(message: 'Credential not initialized')));
     }
-    return login(username: _username!, password: _password!, websiteIdentifier: websiteIdentifier); // Attempt to renew session
+    return login(username: _username!, password: _password!, ident: ident); // Attempt to renew session
   }
 }

@@ -14,7 +14,7 @@ sealed class AuthEvent {}
 class LoginButtonPressed extends AuthEvent {
   final String username;
   final String password;
-  final List<String> websiteIdentifiers;
+  final List<WebsiteIdentifier> websiteIdentifiers;
 
   /// Constructor for initializing the [LoginButtonPressed] event.
   ///

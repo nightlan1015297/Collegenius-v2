@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +14,10 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // List of available websites (services)
-  final List<String> _availableWebsites = ['CourseSelect', 'Eeclass'];
+  final List<WebsiteIdentifier> _availableWebsites = [WebsiteIdentifier.courseSelect, WebsiteIdentifier.eeclass];
 
   // Selected websites for authentication
-  List<String> _selectedWebsites = [];
+  List<WebsiteIdentifier> _selectedWebsites = [];
 
   @override
   void dispose() {
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
           spacing: 8.0,
           children: _availableWebsites.map((website) {
             return FilterChip(
-              label: Text(website),
+              label: Text(website.name),
               selected: _selectedWebsites.contains(website),
               onSelected: (bool selected) {
                 setState(() {

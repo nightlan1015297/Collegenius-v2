@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/core/error/failures.dart';
 import 'package:collegenius/core/usecases/usecase.dart';
 import 'package:collegenius/domain/entities/auth_success.dart';
@@ -25,7 +26,7 @@ class LoginToMultipleServices implements UseCase<List<AuthSuccess>, LoginParams>
   /// either a [Failure] or a list of [AuthSuccess].
   @override
   Future<Either<Failure, List<AuthSuccess>>> call(LoginParams params) async {
-    final websiteIdentifiers = params.websiteIdentifiers;
+    final websiteIdentifiers = params.idents;
 
     // List to store successful authentication results.
     List<AuthSuccess> authSuccesses = [];
@@ -34,11 +35,11 @@ class LoginToMultipleServices implements UseCase<List<AuthSuccess>, LoginParams>
     List<Failure> failures = [];
 
     // Perform authentication in parallel for each website identifier.
-    final results = await Future.wait(websiteIdentifiers.map((websiteIdentifier) {
+    final results = await Future.wait(websiteIdentifiers.map((ident) {
       return repository.login(
         username: params.username,
         password: params.password,
-        websiteIdentifier: websiteIdentifier,
+        ident: ident,
       );
     }));
 
@@ -67,7 +68,7 @@ class LoginToMultipleServices implements UseCase<List<AuthSuccess>, LoginParams>
 class LoginParams {
   final String username;
   final String password;
-  final List<String> websiteIdentifiers;
+  final List<WebsiteIdentifier> idents;
 
   /// Constructor for initializing [LoginParams].
   ///
@@ -75,7 +76,7 @@ class LoginParams {
   LoginParams({
     required this.username,
     required this.password,
-    required this.websiteIdentifiers,
+    required this.idents,
   });
 }
 

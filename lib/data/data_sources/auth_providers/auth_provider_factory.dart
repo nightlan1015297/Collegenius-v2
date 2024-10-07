@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/data_sources/auth_providers/auth_provider.dart';
 import 'package:collegenius/data/data_sources/auth_providers/course_select_auth_provider.dart' as course_select;
 import 'package:collegenius/data/data_sources/auth_providers/eeclass_auth_provider.dart' as eeclass;
@@ -23,11 +24,11 @@ class AuthProviderFactory {
   /// The method uses a switch case to match the identifier with the corresponding 
   /// authentication provider (e.g., 'CourseSelect' or 'Eeclass'). If the identifier
   /// doesn't match any known provider, an [UnsupportedError] is thrown.
-  AuthProvider getAuthProvider(String websiteIdentifier) {
-    switch (websiteIdentifier) {
-      case 'CourseSelect':
+  AuthProvider getAuthProvider(WebsiteIdentifier ident) {
+    switch (ident) {
+      case WebsiteIdentifier.courseSelect:
         return course_select.CourseSelectAuthProvider(dio: dio, cookieJar: sessionManager);
-      case 'Eeclass':
+      case WebsiteIdentifier.eeclass:
         return eeclass.EeclassAuthProvider(dio: dio, cookieJar: sessionManager);
       default:
         throw UnsupportedError('Website not supported');

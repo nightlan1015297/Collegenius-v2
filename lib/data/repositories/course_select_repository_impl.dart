@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/core/error/exceptions.dart';
 import 'package:collegenius/core/error/failures.dart';
 import 'package:collegenius/data/data_sources/crawlers/course_select_crawler.dart';
@@ -35,7 +36,7 @@ class CourseSelectRepositoryImpl implements CourseSelectRepository {
       final isAvail = await sessionIsAvaliable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
-            websiteIdentifier: 'CourseSelect'); // Renew session if unavailable.
+            ident:WebsiteIdentifier.courseSelect); // Renew session if unavailable.
       }
       final responseBody =
           await crsselCrawler.getCourseTablePage(); // Fetch course table page.
@@ -65,7 +66,7 @@ class CourseSelectRepositoryImpl implements CourseSelectRepository {
       final isAvail = await sessionIsAvaliable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
-            websiteIdentifier: 'CourseSelect'); // Renew session if unavailable.
+            ident: WebsiteIdentifier.courseSelect); // Renew session if unavailable.
       }
       final responseBody =
           await crsselCrawler.getAnouncementPage(); // Fetch announcement page.
@@ -94,7 +95,7 @@ class CourseSelectRepositoryImpl implements CourseSelectRepository {
       final isAvail = await sessionIsAvaliable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
-            websiteIdentifier: 'CourseSelect'); // Renew session if unavailable.
+          ident: WebsiteIdentifier.courseSelect); // Renew session if unavailable.
       }
       final responseBody =
           await crsselCrawler.getCourseTablePage(); // Fetch course table page.

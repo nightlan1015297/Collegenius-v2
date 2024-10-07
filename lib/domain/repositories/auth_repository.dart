@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/domain/entities/auth_success.dart';
 import 'package:collegenius/core/error/failures.dart';
 import 'package:either_dart/either.dart';
@@ -15,7 +16,7 @@ abstract class AuthRepository {
   Future<Either<Failure, AuthSuccess>> login({
     required String username,
     required String password,
-    required String websiteIdentifier,
+    required WebsiteIdentifier ident,
   });
 
   /// Renews the current user session for the given [websiteIdentifier].
@@ -23,7 +24,7 @@ abstract class AuthRepository {
   /// This method returns an [Either] containing a [Failure] on error 
   /// or an [AuthSuccess] on successful renewal of the session.
   Future<Either<Failure, AuthSuccess>> renewSession({
-    required String websiteIdentifier,
+    required WebsiteIdentifier ident,
   });
 
   /// Logs out the current user.
