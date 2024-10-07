@@ -1,5 +1,6 @@
 import 'package:collegenius/core/error/exceptions.dart';
 import 'package:collegenius/data/data_sources/crawlers/crawler.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 
 /// A class responsible for crawling course selection pages.
@@ -9,9 +10,10 @@ import 'package:dio/dio.dart';
 /// manages exceptions related to server responses.
 class CourseSelectCrawler extends Crawler {
   final Dio dio; // The Dio instance used for making HTTP requests.
+  final CookieJar sessionManager; // Cookie jar for session management.
   final baseUrl = 'https://cis.ncu.edu.tw/Course/main'; // Base URL for course selection.
 
-  CourseSelectCrawler({required this.dio});
+  CourseSelectCrawler({required this.dio, required this.sessionManager});
   
   /// Fetches the content of a web page from the course selection system.
   /// 
@@ -20,9 +22,6 @@ class CourseSelectCrawler extends Crawler {
   /// If the request fails, it throws a [ServerException] with details.
   @override
   Future<String> fetchPageContent(String url) async {
-    if (await sessionIsAvailiable()) {
-      throw SessionExpiredException(ident: 'Eeclass', message: 'Session expired');
-    }
     try {
       var response = await dio.get('$baseUrl/$url');
       return response.data.toString();
