@@ -5,21 +5,21 @@ import 'package:collegenius/data/data_sources/parsers/course_select_parser.dart'
 import 'package:collegenius/domain/entities/course_schedule.dart';
 import 'package:collegenius/domain/entities/semester.dart';
 import 'package:collegenius/domain/repositories/auth_repository.dart';
-import 'package:collegenius/domain/repositories/course_schedule_repository.dart';
+import 'package:collegenius/domain/repositories/course_select_repository.dart';
 import 'package:either_dart/either.dart';
 
-/// Implementation of the [CourseScheduleRepository] interface.
+/// Implementation of the [CourseSelectRepository] interface.
 ///
 /// This class is responsible for managing course schedules, including fetching
 /// the current course schedule, current semester, and list of semesters. It
 /// utilizes the [AuthRepository] for session management and [CourseSelectCrawler]
 /// for crawling the course data from the source.
-class CourseScheduleRepositoryImpl implements CourseScheduleRepository {
+class CourseSelectRepositoryImpl implements CourseSelectRepository {
   final AuthRepository
       authRepository; // Repository for authentication management.
   final CourseSelectCrawler crsselCrawler; // Crawler for fetching course data.
 
-  CourseScheduleRepositoryImpl(
+  CourseSelectRepositoryImpl(
       {required this.authRepository, required this.crsselCrawler});
 
   /// Fetches the current course schedule.

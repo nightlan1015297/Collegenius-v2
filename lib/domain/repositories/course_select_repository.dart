@@ -8,7 +8,7 @@ import 'package:either_dart/either.dart';
 /// This repository serves as a contract for retrieving course schedules 
 /// and semester information from the data source. Implementations of this 
 /// repository will handle the underlying data retrieval and error management.
-abstract class CourseScheduleRepository {
+abstract class CourseSelectRepository {
   
   /// Retrieves the course schedule.
   /// 
