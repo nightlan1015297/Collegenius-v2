@@ -31,6 +31,16 @@ class CourseSchedule {
 
   @override
   String toString() {
-    return 'CourseSchedule: $schedule';
+    String result = '';
+    for (var timeCode in TimeCode.values) {
+      /// add spaces to make each time code same length
+      /// for better alignment
+      result += '|${timeCode.toString().padRight(15)}|';
+      schedule.forEach((weekDay, dailyCourse) {
+        result += '| ${dailyCourse.schedule[timeCode]!.name} |';
+      });
+      result += '\n';
+    }
+    return result;
   }
 }
