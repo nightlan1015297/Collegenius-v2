@@ -62,9 +62,8 @@ class CourseSelectParser {
   /// parsing fails.
   static CourseModel? _parseCourse(List<String> info) {
     var target = info[1].trim().replaceAll(RegExp(r'[()]'), "");
-    var parts = target.split('/');
+    var parts = target.split(' ');
     CourseModel course;
-
     if (target[0].trim().startsWith(RegExp(r'.*[A-Z]+.*[0-9]+.*'))) {
       course = CourseModel(
           name: info[0].trim(),
