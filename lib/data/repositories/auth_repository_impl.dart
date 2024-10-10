@@ -1,9 +1,10 @@
 import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/data_sources/auth_providers/auth_provider_factory.dart';
+import 'package:collegenius/domain/entities/auth_result.dart';
 import 'package:collegenius/domain/repositories/auth_repository.dart';
-import 'package:collegenius/domain/entities/auth_success.dart';
 import 'package:collegenius/core/error/exceptions.dart';
 import 'package:collegenius/core/error/failures.dart';
+import 'package:dio/dio.dart';
 import 'package:either_dart/either.dart';
 
 /// Implementation of the [AuthRepository] interface.
@@ -27,25 +28,25 @@ class AuthRepositoryImpl implements AuthRepository {
   ///
   /// This method attempts to authenticate the user by calling the appropriate 
   /// auth provider's authenticate method. If successful, it returns an 
-  /// [AuthSuccess] model; otherwise, it returns a [Failure] with details 
+  /// [AuthResult] model; otherwise, it returns a [Failure] with details 
   /// of the error encountered.
   @override
-  Future<Either<Failure, AuthSuccess>> login({
+  Future<Either<Failure, AuthResult>> login({
     required String username,
     required String password,
     required WebsiteIdentifier ident,
   }) async {
     try {
       final authProvider = authProviderFactory.getAuthProvider(ident);
-      final authSuccessModel = await authProvider.authenticate(username, password);
-      final authSuccess = authSuccessModel.toEntity(); // Convert DTO to entity
-      return Right(authSuccess); // Return success result
+      final authResultModel = await authProvider.authenticate(username, password);
+      final authResult = authResultModel.toEntity(); // Convert DTO to entity
+      return Right(authResult); // Return success result
     } on ServerException catch (e) {
       return Left(ServerFailure(message: 'error on ${e.ident} \n ${e.message}')); // Handle server errors
     } on UnsupportedError catch (e) {
       return Left(UnsupportFailure(message: e.message ?? 'Unsupported error')); // Handle unsupported errors
-    } on AuthenticationException catch (e) {
-      return Left(AuthenticationFailure(message: e.message)); // Handle authentication errors
+    } on DioException catch (e) {
+      return Left(ServerFailure(message: '${e.message}')); 
     }
   }
 
@@ -63,7 +64,7 @@ class AuthRepositoryImpl implements AuthRepository {
   /// that credentials are missing. Otherwise, it calls the login method with the cached 
   /// username and password to renew the session.
   @override
-  Future<Either<Failure, AuthSuccess>> renewSession({required WebsiteIdentifier ident}) {
+  Future<Either<Failure, AuthResult>> renewSession({required WebsiteIdentifier ident}) {
     if (_username == null || _password == null) {
       return Future.value(Left(CredentialUninitFailure(message: 'Credential not initialized')));
     }

@@ -1,4 +1,4 @@
-import 'package:collegenius/domain/entities/auth_success.dart';
+import 'package:collegenius/domain/entities/auth_result.dart';
 
 /// Data Transfer Object (DTO) representing user authentication success data.
 /// 
@@ -7,16 +7,21 @@ import 'package:collegenius/domain/entities/auth_success.dart';
 /// this DTO into the corresponding entity in the domain layer, allowing 
 /// for a clear separation of concerns between data representation and 
 /// business logic.
-class AuthSuccessModel {
+class AuthResultModel {
+  final bool isSuccess;
+
+  AuthResultModel({required this.isSuccess});
+  
   
   /// Converts this AuthSuccessModel instance to the corresponding 
-  /// AuthSuccess entity.
+  /// AuthResult entity.
   /// 
   /// This method maps the data contained in the AuthSuccessModel 
-  /// to the AuthSuccess entity, facilitating the use of domain 
+  /// to the AuthResult entity, facilitating the use of domain 
   /// logic while keeping the data source layer separate.
-  AuthSuccess toEntity() {
-    return AuthSuccess();
+  AuthResult toEntity() {
+    final message = isSuccess? '' : 'Authenticate failed, please check username and password';
+    return AuthResult(isSuccess: isSuccess, message: message);
   }
 }
 

@@ -1,7 +1,7 @@
 import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/core/error/failures.dart';
 import 'package:collegenius/core/usecases/usecase.dart';
-import 'package:collegenius/domain/entities/auth_success.dart';
+import 'package:collegenius/domain/entities/auth_result.dart';
 import 'package:collegenius/domain/repositories/auth_repository.dart';
 import 'package:either_dart/either.dart';
 
@@ -10,7 +10,7 @@ import 'package:either_dart/either.dart';
 /// This use case handles the process of authenticating a user across
 /// multiple services in parallel. It returns either a list of successful
 /// authentication results ([AuthSuccess]) or a list of failures.
-class LoginToMultipleServices implements UseCase<List<AuthSuccess>, LoginParams> {
+class LoginToMultipleServices implements UseCase<Map<WebsiteIdentifier,AuthResult>, LoginParams> {
   final AuthRepository repository;
 
   /// Constructor for initializing [LoginToMultipleServices] use case.
@@ -25,39 +25,21 @@ class LoginToMultipleServices implements UseCase<List<AuthSuccess>, LoginParams>
   /// in parallel, collecting either success results or failures. Returns
   /// either a [Failure] or a list of [AuthSuccess].
   @override
-  Future<Either<Failure, List<AuthSuccess>>> call(LoginParams params) async {
+  Future<Either<Failure, Map<WebsiteIdentifier,AuthResult>>> call(LoginParams params) async {
     final websiteIdentifiers = params.idents;
-
-    // List to store successful authentication results.
-    List<AuthSuccess> authSuccesses = [];
-    
-    // List to store any failures encountered during authentication.
-    List<Failure> failures = [];
-
-    // Perform authentication in parallel for each website identifier.
-    final results = await Future.wait(websiteIdentifiers.map((ident) {
-      return repository.login(
+    Map<WebsiteIdentifier,AuthResult> authResults = {};
+    for (var ident in websiteIdentifiers) {
+      final res = await repository.login(
         username: params.username,
         password: params.password,
         ident: ident,
       );
-    }));
-
-    // Process the results, separating successes from failures.
-    for (var result in results) {
-      result.fold(
-        (failure) => failures.add(failure),    // Add failures to the list.
-        (authSuccess) => authSuccesses.add(authSuccess),  // Add successes to the list.
+      res.fold(
+        (failure) => authResults[ident] = AuthResult(isSuccess: false, message: failure.message),
+        (authSuccess) => authResults[ident] = AuthResult(isSuccess: true, message: ''),
       );
     }
-
-    // If there are any failures, return them wrapped in [MultipleFailures].
-    if (failures.isNotEmpty) {
-      return Left(MultipleFailures(failures: failures));
-    } else {
-      // If all authentications were successful, return the successes.
-      return Right(authSuccesses);
-    }
+    return Right(authResults);
   }
 }
 
@@ -78,18 +60,4 @@ class LoginParams {
     required this.password,
     required this.idents,
   });
-}
-
-/// Failure class representing multiple authentication failures.
-///
-/// This class is used when the login attempt fails for one or more
-/// services. It holds a list of individual failures.
-class MultipleFailures extends Failure {
-  final List<Failure> failures;
-
-  /// Constructor for initializing [MultipleFailures].
-  ///
-  /// Takes a required [failures] parameter, which is a list of 
-  /// [Failure] objects representing the authentication failures.
-  MultipleFailures({required this.failures}) : super('Authentication failed for one or more services.');
 }
