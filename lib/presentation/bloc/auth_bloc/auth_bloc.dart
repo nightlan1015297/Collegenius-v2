@@ -1,5 +1,5 @@
 import 'package:collegenius/core/constants.dart';
-import 'package:collegenius/domain/entities/auth_success.dart';
+import 'package:collegenius/domain/entities/auth_result.dart';
 import 'package:collegenius/domain/usecases/login_multiple_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -45,22 +45,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await loginToMultipleServices(LoginParams(
       username: event.username,
       password: event.password,
-      idents: event.websiteIdentifiers,
+      idents: event.idents,
     ));
 
     // Handle the result of the login attempt.
     result.fold(
       (failure) {
-        // If there are multiple failures, emit a detailed error message.
-        if (failure is MultipleFailures) {
-          emit(AuthError(message: 'Authentication failed for one or more services.'));
-        } else {
-          // For a single failure, emit a general error message.
-          emit(AuthError(message: failure.message));
-        }
+        // For a single failure, emit a general error message.
+        emit(AuthError(message: failure.message));
       },
       // If the login is successful, emit the [AuthenticatedMultiple] state with the success data.
-      (authSuccess) => emit(AuthenticatedMultiple(authSuccess: authSuccess)),
+      (authSuccess) => emit(AuthenticatedMultiple(authResults: authSuccess)),
     );
   }
 }

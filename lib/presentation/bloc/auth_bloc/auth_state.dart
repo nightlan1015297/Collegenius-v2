@@ -32,16 +32,16 @@ class AuthLoading extends AuthState {
 /// the successful login results for each of the services the user attempted
 /// to authenticate with.
 class AuthenticatedMultiple extends AuthState {
-  final List<AuthSuccess> authSuccess;
+  final Map<WebsiteIdentifier,AuthResult> authResults;
 
   /// Constructor for initializing [AuthenticatedMultiple] state.
   ///
   /// Accepts a required list of [authSuccess], representing the success 
   /// statuses for multiple authenticated services.
-  AuthenticatedMultiple({required this.authSuccess});
+  AuthenticatedMultiple({required this.authResults});
   
   @override
-  List<Object?> get props => [authSuccess];
+  List<Object?> get props => [authResults];
 }
 
 /// State emitted when the authentication process fails.

@@ -14,7 +14,7 @@ sealed class AuthEvent {}
 class LoginButtonPressed extends AuthEvent {
   final String username;
   final String password;
-  final List<WebsiteIdentifier> websiteIdentifiers;
+  final List<WebsiteIdentifier> idents;
 
   /// Constructor for initializing the [LoginButtonPressed] event.
   ///
@@ -24,7 +24,7 @@ class LoginButtonPressed extends AuthEvent {
   LoginButtonPressed({
     required this.username,
     required this.password,
-    required this.websiteIdentifiers,
+    required this.idents,
   });
 }
 
