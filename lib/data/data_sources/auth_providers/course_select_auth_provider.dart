@@ -35,7 +35,7 @@ class CourseSelectAuthProvider implements AuthProvider {
   /// [AuthSuccessModel] containing the authentication status and session data. 
   /// Throws a [ServerException] if authentication fails.
   @override
-  Future<AuthSuccessModel> authenticate(String username, String password) async {
+  Future<AuthResultModel> authenticate(String username, String password) async {
     try {
       await dio.post(
         '$baseUrl/login',
@@ -50,11 +50,9 @@ class CourseSelectAuthProvider implements AuthProvider {
       final isAuthenticated = await _checkAuthenticationSuccess();
 
       if (!isAuthenticated) {
-        throw AuthenticationException(
-          message: 'Authentication failed. Wrong username or password.'
-        );
+        AuthResultModel(isSuccess: false);
       }
-      return AuthSuccessModel(); // Return an empty AuthSuccessModel on successful authentication.
+      return AuthResultModel(isSuccess: true); // Return an empty AuthSuccessModel on successful authentication.
     } catch (e) {
       throw ServerException(
         ident: 'Course Select',

@@ -35,15 +35,10 @@ class EeclassAuthProvider implements AuthProvider {
   /// [AuthSuccessModel] if successful. Throws an [AuthenticationException] 
   /// if login fails.
   @override
-  Future<AuthSuccessModel> authenticate(String username, String password) async {
+  Future<AuthResultModel> authenticate(String username, String password) async {
     // Perform login
     final validationResult = await _logIn(username, password);
-
-    if (validationResult) {
-      return AuthSuccessModel(); // Return an empty AuthSuccessModel on successful authentication.
-    } else {
-      throw AuthenticationException(message: 'Login failed. Wrong username or password.');
-    }
+    return AuthResultModel(isSuccess: validationResult);
   }
 
   /// Handles the login process.

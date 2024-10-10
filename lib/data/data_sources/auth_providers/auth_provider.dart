@@ -16,7 +16,7 @@ abstract class AuthProvider {
   /// a [username] and [password] as parameters and returns an [AuthSuccessModel] 
   /// that contains the authentication result. The result includes a success/failure 
   /// status and relevant user data if successful.
-  Future<AuthSuccessModel> authenticate(String username, String password);
+  Future<AuthResultModel> authenticate(String username, String password);
 
   /// Logs out the current user.
   ///
