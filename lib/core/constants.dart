@@ -7,9 +7,9 @@ extension WebsiteIdentifierX on WebsiteIdentifier {
   String get name {
     switch (this) {
       case WebsiteIdentifier.eeclass:
-        return 'EEClass';
+        return 'EE Class';
       case WebsiteIdentifier.courseSelect:
-        return 'CourseSelect';
+        return 'Course Selection System';
     }
   }
 }
