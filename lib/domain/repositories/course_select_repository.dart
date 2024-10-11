@@ -14,7 +14,7 @@ abstract class CourseSelectRepository {
   /// 
   /// This method returns an [Either] type that contains a [Failure] 
   /// in case of an error, or a [CourseSchedule] object if successful.
-  Future<Either<Failure, CourseSchedule>> getCourseSchedule();
+  Future<Either<Failure, CourseSchedule>> getCourseSchedule({String semester});
 
   /// Retrieves the current semester information.
   /// 
