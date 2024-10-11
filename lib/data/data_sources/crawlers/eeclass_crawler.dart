@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 /// 
 /// The [EeclassCrawler] extends the [Crawler] abstract class and provides 
 /// implementations for fetching page content and checking session availability.
-class EeclassCrawler extends Crawler {
+class EeclassCrawler {
   final Dio dio; // An instance of Dio for making HTTP requests.
   final String baseUrl = 'https://eeclass.ncu.edu.tw'; // Base URL for EEClass.
 
@@ -22,7 +22,6 @@ class EeclassCrawler extends Crawler {
   /// a GET request to the provided [url] and returns the response body as a string.
   ///
   /// Throws [ServerException] if the request fails.
-  @override
   Future<String> fetchPageContent(String url) async {
     if (await sessionIsAvailiable()) {
       throw SessionExpiredException(ident: 'Eeclass', message: 'Session expired');
@@ -42,7 +41,6 @@ class EeclassCrawler extends Crawler {
   /// that the user is logged in and the session is valid.
   ///
   /// Returns `true` if the session is available, otherwise `false`.
-  @override
   Future<bool> sessionIsAvailiable() async {
     var response = await dio.get(
       '$baseUrl/index/login',
