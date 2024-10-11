@@ -1,4 +1,4 @@
-import 'package:collegenius/data/models/daily_course_model.dart';
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/domain/entities/course.dart';
 
 /// Represents a daily course schedule.
@@ -9,12 +9,14 @@ class DailyCourse {
   /// A map that associates [TimeCode] with corresponding [Course].
   Map<TimeCode, Course> schedule;
 
+  WeekDay day;
   /// Constructs a [DailyCourse] instance with the provided [schedule].
   ///
   /// The [schedule] parameter is required and defines the initial courses 
   /// for the day.
   DailyCourse({
     required this.schedule,
+    required this.day,
   });
 
   /// Adds a course to the schedule at the specified [code].

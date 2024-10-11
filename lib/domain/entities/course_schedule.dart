@@ -1,5 +1,4 @@
-import 'package:collegenius/data/models/course_schedule_model.dart';
-import 'package:collegenius/data/models/daily_course_model.dart';
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/domain/entities/course.dart';
 import 'package:collegenius/domain/entities/daily_course.dart';
 
