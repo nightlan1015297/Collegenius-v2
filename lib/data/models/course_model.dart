@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/domain/entities/course.dart';
 
 /// Represents a course with its name, classroom location, and the professor.
@@ -17,24 +18,30 @@ class CourseModel {
   /// The professor teaching the course (e.g., "Dr. John Doe").
   final String professor;
 
+  /// The time slot for the course, represented by a [TimeCode] value.
+  final TimeCode timeCode;
+
   /// Constructs a [CourseModel] instance.
   ///
-  /// The [name], [classroom], and [professor] are all required fields.
+  /// The [name], [classroom], [professor], and [timeCode] are all required fields.
   CourseModel({
     required this.name,
     required this.classroom,
     required this.professor, 
+    required this.timeCode,
   });
 
   /// Creates an empty instance of [CourseModel].
   /// 
   /// This factory method returns a [CourseModel] with empty strings 
-  /// for all fields, useful for initializing forms or default values.
-  factory CourseModel.empty() {
+  /// for all fields and a default [TimeCode], useful for initializing 
+  /// forms or providing default values for optional course data.
+  factory CourseModel.empty({TimeCode? timeCode}) {
     return CourseModel(
       name: '',
       classroom: '',
       professor: '',
+      timeCode: timeCode ?? TimeCode.A,
     );
   }
 
@@ -49,6 +56,7 @@ class CourseModel {
       name: name,
       classroom: classroom,
       professor: professor,
+      timeCode: timeCode,
     );
   }
 }
