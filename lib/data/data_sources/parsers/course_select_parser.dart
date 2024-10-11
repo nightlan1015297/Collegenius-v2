@@ -1,6 +1,6 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/models/course_model.dart';
 import 'package:collegenius/data/models/course_schedule_model.dart';
-import 'package:collegenius/data/models/daily_course_model.dart';
 import 'package:collegenius/data/models/semester_model.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:html/dom.dart' as dom;
@@ -41,7 +41,7 @@ class CourseSelectParser {
       for (int j = 0; j < elemInRow.length; j++) {
         var info = elemInRow[j].text.trim().split('\n');
         if (info.length != 1) {
-          var course = _parseCourse(info);
+          var course = _parseCourse(info, mapIndexToTimeCode[i + 1]!);
           if (course != null) {
             courseSchedule.addCourse(
                 day: mapIndexToWeekDay[j]!,
@@ -60,7 +60,7 @@ class CourseSelectParser {
   /// information. It expects the course details to be formatted correctly 
   /// in the [info] list. Returns a [CourseModel] instance or null if 
   /// parsing fails.
-  static CourseModel? _parseCourse(List<String> info) {
+  static CourseModel? _parseCourse(List<String> info, TimeCode timeCode) {
     var target = info[1].trim().replaceAll(RegExp(r'[()]'), "");
     var parts = target.split(' ');
     CourseModel course;
@@ -68,12 +68,15 @@ class CourseSelectParser {
       course = CourseModel(
           name: info[0].trim(),
           classroom: parts[0].trim(),
-          professor: parts[1].trim());
+          professor: parts[1].trim(),
+          timeCode: timeCode
+          );
     } else {
       course = CourseModel(
           name: info[0].trim(),
           classroom: parts[1].trim(),
-          professor: parts[0].trim());
+          professor: parts[0].trim(),
+          timeCode:timeCode);
     }
 
     return course;
