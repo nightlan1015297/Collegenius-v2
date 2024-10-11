@@ -1,85 +1,31 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/models/course_model.dart';
 import 'package:collegenius/domain/entities/daily_course.dart';
-
-/// Enum representing different time slots for courses.
-/// 
-/// This enumeration defines various time codes used to identify specific 
-/// time slots in a daily course schedule.
-enum TimeCode {
-  one,
-  two,
-  three,
-  four,
-  Z,
-  five,
-  six,
-  seven,
-  eight,
-  nine,
-  A,
-  B,
-  C,
-  D,
-  E,
-  F,
-}
-
-/// Mapping of integer indices to corresponding TimeCode values.
-/// 
-/// This map is used to convert integer indices (e.g., from database or API) 
-/// into the respective TimeCode for easier management of course schedules.
-Map<int, TimeCode> mapIndexToTimeCode = {
-  1: TimeCode.one,
-  2: TimeCode.two,
-  3: TimeCode.three,
-  4: TimeCode.four,
-  5: TimeCode.Z,
-  6: TimeCode.five,
-  7: TimeCode.six,
-  8: TimeCode.seven,
-  9: TimeCode.eight,
-  10: TimeCode.nine,
-  11: TimeCode.A,
-  12: TimeCode.B,
-  13: TimeCode.C,
-  14: TimeCode.D,
-  15: TimeCode.E,
-  16: TimeCode.F,
-};
-
-/// Mapping of TimeCode values to corresponding integer indices.
-/// 
-/// This map serves as a reverse lookup for converting TimeCode values back 
-/// into their respective integer indices for data processing or storage.
-Map<TimeCode, int> mapTimeCodetoIndex = {
-  TimeCode.one: 1,
-  TimeCode.two: 2,
-  TimeCode.three: 3,
-  TimeCode.four: 4,
-  TimeCode.Z: 5,
-  TimeCode.five: 6,
-  TimeCode.six: 7,
-  TimeCode.seven: 8,
-  TimeCode.eight: 9,
-  TimeCode.nine: 10,
-  TimeCode.A: 11,
-  TimeCode.B: 12,
-  TimeCode.C: 13,
-  TimeCode.D: 14,
-  TimeCode.E: 15,
-  TimeCode.F: 16,
-};
 
 /// Model class representing the daily course schedule.
 /// 
 /// This class manages the daily courses by storing them in a schedule 
-/// that maps each time slot to a corresponding course.
+/// that maps each time slot ([TimeCode]) to a corresponding [CourseModel].
+/// It provides methods for adding courses, initializing an empty schedule,
+/// and converting the model to a domain entity for business logic usage.
 class DailyCourseModel {
-  // Map that holds the course schedule for different time slots.
+  /// Map that holds the course schedule for different time slots.
+  ///
+  /// This map uses [TimeCode] as keys and associates each time slot with 
+  /// a [CourseModel], representing the course assigned at that time.
   Map<TimeCode, CourseModel> schedule;
 
-  /// Constructor for initializing DailyCourseModel with a schedule.
+  /// The day of the week for which this course schedule is applicable.
+  ///
+  /// This indicates which [WeekDay] the schedule is representing (e.g., Monday).
+  final WeekDay day;
+
+  /// Constructor for initializing [DailyCourseModel] with a given schedule.
+  ///
+  /// Requires a [day] to indicate which day of the week is being represented,
+  /// and a [schedule] that contains the mapping of time slots to courses.
   DailyCourseModel({
+    required this.day,
     required this.schedule,
   });
 
@@ -87,42 +33,55 @@ class DailyCourseModel {
   /// 
   /// This method takes a [TimeCode] and a [CourseModel] as parameters, 
   /// adding or updating the course in the schedule for the specified time slot.
+  /// It facilitates managing the schedule dynamically, allowing courses to be 
+  /// updated or newly assigned to a time slot.
+  ///
+  /// Parameters:
+  /// - [code]: The [TimeCode] representing the time slot for the course.
+  /// - [course]: The [CourseModel] instance representing the course to be added.
   void addCourse({required TimeCode code, required CourseModel course}) {
     schedule[code] = course; // Add or update the course for the given time code.
   }
   
-  /// Factory method to create an empty DailyCourseModel.
+  /// Factory method to create an empty [DailyCourseModel].
   /// 
-  /// This method initializes a DailyCourseModel with all time slots 
-  /// set to empty CourseModels, effectively providing a blank schedule.
-  factory DailyCourseModel.empty() {
+  /// This method initializes a [DailyCourseModel] with all time slots set to 
+  /// empty [CourseModel] instances, effectively providing a blank schedule 
+  /// for a particular day of the week. It is useful for initializing the schedule
+  /// with no pre-assigned courses.
+  ///
+  /// Parameters:
+  /// - [day]: The [WeekDay] that the schedule will represent.
+  factory DailyCourseModel.empty({required WeekDay day}) {
     return DailyCourseModel(schedule: {
-      TimeCode.one: CourseModel.empty(),
-      TimeCode.two: CourseModel.empty(),
-      TimeCode.three: CourseModel.empty(),
-      TimeCode.four: CourseModel.empty(),
-      TimeCode.Z: CourseModel.empty(),
-      TimeCode.five: CourseModel.empty(),
-      TimeCode.six: CourseModel.empty(),
-      TimeCode.seven: CourseModel.empty(),
-      TimeCode.eight: CourseModel.empty(),
-      TimeCode.nine: CourseModel.empty(),
-      TimeCode.A: CourseModel.empty(),
-      TimeCode.B: CourseModel.empty(),
-      TimeCode.C: CourseModel.empty(),
-      TimeCode.D: CourseModel.empty(),
-      TimeCode.E: CourseModel.empty(),
-      TimeCode.F: CourseModel.empty(),
-    });
+      TimeCode.one: CourseModel.empty(timeCode: TimeCode.one),
+      TimeCode.two: CourseModel.empty(timeCode: TimeCode.two),
+      TimeCode.three: CourseModel.empty(timeCode: TimeCode.three),
+      TimeCode.four: CourseModel.empty(timeCode: TimeCode.four),
+      TimeCode.Z: CourseModel.empty(timeCode: TimeCode.Z),
+      TimeCode.five: CourseModel.empty(timeCode: TimeCode.five),
+      TimeCode.six: CourseModel.empty(timeCode: TimeCode.six),
+      TimeCode.seven: CourseModel.empty(timeCode: TimeCode.seven),
+      TimeCode.eight: CourseModel.empty(timeCode: TimeCode.eight),
+      TimeCode.nine: CourseModel.empty(timeCode: TimeCode.nine),
+      TimeCode.A: CourseModel.empty(timeCode: TimeCode.A),
+      TimeCode.B: CourseModel.empty(timeCode: TimeCode.B),
+      TimeCode.C: CourseModel.empty(timeCode: TimeCode.C),
+      TimeCode.D: CourseModel.empty(timeCode: TimeCode.D),
+      TimeCode.E: CourseModel.empty(timeCode: TimeCode.E),
+      TimeCode.F: CourseModel.empty(timeCode: TimeCode.F),
+    }, day: day);
   }
 
-  /// Method to convert DailyCourseModel to a corresponding DailyCourse entity.
+  /// Method to convert [DailyCourseModel] to a corresponding [DailyCourse] entity.
   /// 
-  /// This method maps the schedule from DailyCourseModel to the 
-  /// corresponding DailyCourse entity, allowing for easy conversion 
-  /// between model and entity representations.
+  /// This method maps the schedule from [DailyCourseModel] to the 
+  /// corresponding [DailyCourse] entity, allowing for easy conversion 
+  /// between the model and entity representations. This is especially useful 
+  /// for transferring data to the domain layer where business logic is applied.
   DailyCourse toEntity() {
     return DailyCourse(
+      day: day,
       schedule: schedule.map((key, value) => MapEntry(key, value.toEntity())),
     );
   }
