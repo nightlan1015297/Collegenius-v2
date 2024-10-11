@@ -1,3 +1,6 @@
+
+import 'package:dio/dio.dart';
+
 /// Abstract class representing a web crawler.
 /// 
 /// This class defines the contract for crawling web pages, providing methods 
@@ -8,7 +11,7 @@ abstract class Crawler {
   /// 
   /// Returns the page content as a [String]. This method should handle 
   /// any necessary HTTP requests and responses.
-  Future<String> fetchPageContent(String url);
+  Future<String> fetchPageContent(String url, {FormData? data});
 
   /// Checks if the current user session is available.
   /// 
