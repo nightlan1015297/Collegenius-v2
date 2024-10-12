@@ -1,4 +1,6 @@
 // material_model.dart
+import 'package:collegenius/core/constants.dart';
+
 class EeclassMaterialInfoModel {
   final String title;
   final String url;
@@ -43,10 +45,3 @@ class EeclassMaterialInfoModel {
   }
 }
 
-enum EeclassMaterialType {
-  attachment,
-  pdf,
-  youtube,
-  audio,
-  unknown,
-}

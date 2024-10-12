@@ -1,5 +1,5 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/models/eeclass_file_model.dart';
-import 'package:collegenius/data/models/eeclass_material_info_model.dart';
 
 class EeclassMaterialModel {
   final EeclassMaterialType type;

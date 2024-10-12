@@ -244,3 +244,11 @@ extension TimeOfDayX on TimeOfDay {
         (hour == other.hour && minute > other.minute);
   }
 }
+
+enum EeclassMaterialType {
+  attachment,
+  pdf,
+  youtube,
+  audio,
+  unknown,
+}

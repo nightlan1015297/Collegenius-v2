@@ -1,3 +1,4 @@
+import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/models/eeclass_assignment_info_model.dart';
 import 'package:collegenius/data/models/eeclass_assignment_model.dart';
 import 'package:collegenius/data/models/eeclass_bulletin_info_model.dart';
