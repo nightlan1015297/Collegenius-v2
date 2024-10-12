@@ -58,7 +58,7 @@ extension TimeCodeX on TimeCode {
       case TimeCode.three:
         return const TimeOfDay(hour: 10, minute: 0);
       case TimeCode.four:
-        return const TimeOfDay(hour: 11 ,minute: 0);
+        return const TimeOfDay(hour: 11, minute: 0);
       case TimeCode.Z:
         return const TimeOfDay(hour: 12, minute: 0);
       case TimeCode.five:
@@ -96,7 +96,7 @@ extension TimeCodeX on TimeCode {
       case TimeCode.three:
         return const TimeOfDay(hour: 10, minute: 50);
       case TimeCode.four:
-        return const TimeOfDay(hour: 11 ,minute: 50);
+        return const TimeOfDay(hour: 11, minute: 50);
       case TimeCode.Z:
         return const TimeOfDay(hour: 12, minute: 50);
       case TimeCode.five:
@@ -122,6 +122,14 @@ extension TimeCodeX on TimeCode {
       case TimeCode.F:
         return const TimeOfDay(hour: 23, minute: 50);
     }
+  }
+
+  String get startTimeString {
+    return '${startTime.hour}:${startTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  String get endTimeString {
+    return '${endTime.hour}:${endTime.minute.toString().padLeft(2, '0')}';
   }
 }
 
@@ -174,6 +182,27 @@ Map<int, TimeCode> mapIndexToTimeCode = {
 /// Enumeration representing the days of the week.
 enum WeekDay { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
+extension WeekDayX on WeekDay {
+  String get name {
+    switch (this) {
+      case WeekDay.monday:
+        return 'Monday';
+      case WeekDay.tuesday:
+        return 'Tuesday';
+      case WeekDay.wednesday:
+        return 'Wednesday';
+      case WeekDay.thursday:
+        return 'Thursday';
+      case WeekDay.friday:
+        return 'Friday';
+      case WeekDay.saturday:
+        return 'Saturday';
+      case WeekDay.sunday:
+        return 'Sunday';
+    }
+  }
+}
+
 /// Mapping from integer indices to corresponding weekdays.
 /// 
 /// This map is used to convert integer indices into WeekDay values, which 
@@ -201,3 +230,17 @@ Map<WeekDay, int> mapWeekDaytoIndex = {
   WeekDay.saturday: 6,
   WeekDay.sunday: 7,
 };
+
+extension TimeOfDayX on TimeOfDay {
+  /// Checks if the current TimeOfDay is before another specified TimeOfDay.
+  bool isBefore(TimeOfDay other) {
+    return hour < other.hour ||
+        (hour == other.hour && minute < other.minute);
+  }
+
+  /// Checks if the current TimeOfDay is after another specified TimeOfDay.
+  bool isAfter(TimeOfDay other) {
+    return hour > other.hour ||
+        (hour == other.hour && minute > other.minute);
+  }
+}
