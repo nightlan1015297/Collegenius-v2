@@ -1,3 +1,4 @@
+import 'package:collegenius/presentation/drawer/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
@@ -8,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(),
+      drawer: const CollegeniusDrawer(),
       body: const Row(
         children: [
           Expanded(
