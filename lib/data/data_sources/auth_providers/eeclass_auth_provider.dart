@@ -49,7 +49,7 @@ class EeclassAuthProvider implements AuthProvider {
   Future<bool> _logIn(String username, String password) async {
     var csrfToken = await _getCsrfToken(); // Get the CSRF token for the session.
 
-    var response = await dio.post(
+    await dio.post(
       '$baseUrl/index/login',
       data: FormData.fromMap({
         '_fmSubmit': 'yes',             // Form submission flag.
