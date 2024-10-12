@@ -2,6 +2,7 @@ import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/data/data_sources/auth_providers/auth_provider.dart';
 import 'package:collegenius/data/data_sources/auth_providers/course_select_auth_provider.dart' as course_select;
 import 'package:collegenius/data/data_sources/auth_providers/eeclass_auth_provider.dart' as eeclass;
+// ignore: depend_on_referenced_packages
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 

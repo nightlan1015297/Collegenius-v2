@@ -1,6 +1,7 @@
 import 'package:collegenius/data/data_sources/auth_providers/auth_provider.dart';
 import 'package:collegenius/data/models/auth_result_model.dart';
 import 'package:collegenius/core/error/exceptions.dart';
+// ignore: depend_on_referenced_packages
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 
