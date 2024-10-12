@@ -41,7 +41,7 @@ class DailyCourse {
   /// Returns `true` if all time slots in the schedule are empty 
   /// (i.e., contain an empty course), otherwise returns `false`.
   bool get isEmpty {
-    return schedule.values.every((element) => element == Course.empty());
+    return schedule.values.every((element)=>(element.isEmpty));
   }
 
   /// Checks if the daily course schedule is not empty.
