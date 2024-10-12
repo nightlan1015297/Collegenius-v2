@@ -40,6 +40,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final authProvider = authProviderFactory.getAuthProvider(ident);
       final authResultModel = await authProvider.authenticate(username, password);
       final authResult = authResultModel.toEntity(); // Convert DTO to entity
+      _username = username; // Cache username for session renewal
+      _password = password; // Cache password for session renewal
       return Right(authResult); // Return success result
     } on ServerException catch (e) {
       return Left(ServerFailure(message: 'error on ${e.ident} \n ${e.message}')); // Handle server errors
