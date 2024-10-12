@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// A class defining the theme of the Collegenius application.
+///
+/// This class provides a customized [ThemeData] that sets the overall look
+/// and feel of the application, including colors, fonts, and widget styles.
 class CollegeniusTheme {
   static ThemeData get theme {
     return ThemeData(
+      // Background color for the main scaffold
       scaffoldBackgroundColor: const Color(0xff1e1e1e),
-      // App bar theme
+
+      // Background color for material widgets
+      canvasColor: const Color(0xff3d3d3d),
+
+      // AppBar styling
       appBarTheme: const AppBarTheme(
         color: Color(0xff3d3d3d),
         iconTheme: IconThemeData(
@@ -13,11 +22,11 @@ class CollegeniusTheme {
         ),
         titleTextStyle: TextStyle(
           color: Colors.white,
-          fontSize: 20,
+          fontSize: 15,
         ),
       ),
 
-      // Card Theme
+      // Card widget styling
       cardTheme: CardTheme(
         color: const Color(0xff3d3d3d),
         elevation: 5,
@@ -26,47 +35,74 @@ class CollegeniusTheme {
         ),
       ),
 
-      // Text Theme
+      // Text theme for the application using Google Fonts
       fontFamily: GoogleFonts.roboto().fontFamily,
       textTheme: const TextTheme().copyWith(
         bodySmall: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         bodyMedium: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         bodyLarge: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         labelSmall: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis),
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis,
+        ),
         labelMedium: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis),
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis,
+        ),
         labelLarge: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis),
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          overflow: TextOverflow.ellipsis,
+        ),
         displaySmall: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         displayMedium: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         displayLarge: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         titleLarge: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         titleMedium: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
         titleSmall: const TextStyle(
-            color: Colors.white, overflow: TextOverflow.ellipsis),
+          color: Colors.white, 
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
 
-      // icon theme
+      // Icon theme styling
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),
 
-      // input decorations
+      // Text selection styling (e.g., cursor and selection color)
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.white,
+        selectionColor: Color(0xff3d3d3d),
+      ),
+
+      // Input decoration (used for text fields)
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
         hintStyle: const TextStyle(color: Colors.white),
@@ -90,33 +126,37 @@ class CollegeniusTheme {
           ),
         ),
       ),
+
+      // Elevated button theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(
-              const Color.fromARGB(255, 95, 199, 255)),
+          foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
           padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           ),
           textStyle: WidgetStateProperty.all<TextStyle>(
             const TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: 12,
             ),
           ),
         ),
       ),
+
+      // Outlined button theme
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.disabled)) {
               return Colors.grey; // Disabled color
             }
-            return const Color.fromARGB(166, 33, 149, 243); // Regular color
+            return Colors.blue; // Regular color
           }),
           foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.disabled)) {
@@ -124,7 +164,7 @@ class CollegeniusTheme {
             }
             return Colors.white; // Regular color
           }),
-          side: WidgetStateBorderSide.resolveWith((states) {
+          side: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
               return const BorderSide(color: Colors.grey); // Disabled color
             }
@@ -143,10 +183,14 @@ class CollegeniusTheme {
           ),
         ),
       ),
+
+      // Drawer theme styling
       drawerTheme: const DrawerThemeData(
         elevation: 1,
         backgroundColor: Color(0xff3d3d3d),
       ),
+
+      // ListTile theme for styling ListTiles across the app
       listTileTheme: ListTileThemeData(
         tileColor: const Color(0xff3d3d3d),
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -156,9 +200,21 @@ class CollegeniusTheme {
         iconColor: Colors.white,
         textColor: Colors.white,
         minLeadingWidth: 50,
-        minTileHeight: 45,
+        minVerticalPadding: 0,
+        horizontalTitleGap: 8.0,
+        style: ListTileStyle.drawer,
         titleTextStyle: const TextStyle(
             color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+      ),
+
+      // Button theme (used for legacy button widgets)
+      buttonTheme: ButtonThemeData(
+        buttonColor: Colors.blue,
+        textTheme: ButtonTextTheme.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        alignedDropdown: false,
       ),
     );
   }
