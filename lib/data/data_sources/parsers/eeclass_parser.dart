@@ -15,7 +15,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as htmlparser;
 
 class EeclassParser {
-  static List<EeclssCourseInfoModel> parseCourseList(String responseBody) {
+  static List<EeclassCourseInfoModel> parseCourseList(String responseBody) {
     dom.Document document = htmlparser.parse(responseBody);
     final target = document.getElementById('myCourseHistoryTable');
     const keys = [
@@ -28,7 +28,7 @@ class EeclassParser {
       'classType',
       'courseSerial'
     ];
-    var result = <EeclssCourseInfoModel>[];
+    var result = <EeclassCourseInfoModel>[];
     if (target != null) {
       final courseTable =
           target.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
@@ -40,14 +40,14 @@ class EeclassParser {
         final attr = i.getElementsByTagName('a')[0].attributes;
         value.add(attr['href']!.replaceAll(RegExp(r"/course/"), ""));
         final course = Map.fromIterables(keys, value);
-        result.add(EeclssCourseInfoModel.fromMap(course));
+        result.add(EeclassCourseInfoModel.fromMap(course));
       }
       return result;
     }
     return [];
   }
 
-  static List<EeclassSemesterModel> parseAvailiableSemester(
+  static List<EeclassSemesterModel> parseAvailableSemester(
       String responseBody) {
     dom.Document document = htmlparser.parse(responseBody);
     var target = document.getElementById('termId');
@@ -114,7 +114,7 @@ class EeclassParser {
           break;
         case 'Instructor':
         case '老師':
-          result['instroctors'] = infoBody[i]
+          result['instructors'] = infoBody[i]
               .children
               .map((e) => e.children[1].children[0].children
                   .map((e) => e.text)
@@ -165,7 +165,7 @@ class EeclassParser {
       }
       const key = [
         'readCount',
-        'auther',
+        'author',
         'date',
       ];
       var result = <Map<String, String?>>[];
@@ -251,7 +251,7 @@ class EeclassParser {
 
               break;
             case 2:
-              temp['auther'] = values[i].text.trim();
+              temp['author'] = values[i].text.trim();
               break;
             case 3:
               temp['readCount'] = values[i].text.trim();

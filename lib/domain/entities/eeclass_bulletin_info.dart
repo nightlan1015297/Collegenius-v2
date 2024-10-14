@@ -1,13 +1,13 @@
 class EeclassBulletinInfo {
   final String readCount;
-  final String auther;
+  final String author;
   final String date;
   final String title;
   final String url;
 
   EeclassBulletinInfo({
     required this.readCount,
-    required this.auther,
+    required this.author,
     required this.date,
     required this.title,
     required this.url,
@@ -16,7 +16,7 @@ class EeclassBulletinInfo {
   factory EeclassBulletinInfo.fromMap(Map<String, String?> map) {
     return EeclassBulletinInfo(
       readCount: map['readCount'] ?? '',
-      auther: map['auther'] ?? '',
+      author: map['author'] ?? '',
       date: map['date'] ?? '',
       title: map['title'] ?? '',
       url: map['url'] ?? '',

@@ -1,4 +1,4 @@
-class EeclssCourseInfo {
+class EeclassCourseInfo {
   final String semester;
   final String courseCode;
   final String name;
@@ -8,7 +8,7 @@ class EeclssCourseInfo {
   final String classType;
   final String courseSerial;
 
-  EeclssCourseInfo({
+  EeclassCourseInfo({
     required this.semester,
     required this.courseCode,
     required this.name,
@@ -19,8 +19,8 @@ class EeclssCourseInfo {
     required this.courseSerial,
   });
 
-  factory EeclssCourseInfo.fromMap(Map<String, String> map) {
-    return EeclssCourseInfo(
+  factory EeclassCourseInfo.fromMap(Map<String, String> map) {
+    return EeclassCourseInfo(
       semester: map['semester']!,
       courseCode: map['courseCode']!,
       name: map['name']!,

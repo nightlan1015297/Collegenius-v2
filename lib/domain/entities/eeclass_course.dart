@@ -6,7 +6,7 @@ class EeclassCourse {
   final String division;
   final String classes;
   final int members;
-  final List<String> instroctors;
+  final List<String> instructors;
   final List<String> assistants;
   final String description;
   final String syllabus;
@@ -21,7 +21,7 @@ class EeclassCourse {
       required this.division,
       required this.classes,
       required this.members,
-      required this.instroctors,
+      required this.instructors,
       required this.assistants,
       required this.description,
       required this.syllabus,
@@ -37,7 +37,7 @@ class EeclassCourse {
       division: '',
       classes: '',
       members: 0,
-      instroctors: [],
+      instructors: [],
       assistants: [],
       description: '',
       syllabus: '',
@@ -55,7 +55,7 @@ class EeclassCourse {
       division: map['division'],
       classes: map['classes'],
       members: map['members'],
-      instroctors: map['instroctors'],
+      instructors: map['instructors'],
       assistants: map['assistants'],
       description: map['description'],
       syllabus: map['syllabus'],
