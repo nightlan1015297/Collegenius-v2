@@ -26,3 +26,13 @@ class SessionExpiredException extends AppException {
 
   SessionExpiredException({required this.ident, required super.message});
 }
+
+class ParserException extends AppException {
+  final String serviceIdent;
+  final String unitIdent;
+
+  ParserException(
+      {required this.serviceIdent,
+      required this.unitIdent,
+      required super.message});
+}
