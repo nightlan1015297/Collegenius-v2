@@ -25,6 +25,12 @@ class EeclassCrawler extends Crawler {
   @override
   Future<String> fetchPageContent(String url, {FormData? data}) async {
     try {
+      // Check if the session is available before making the request.
+      if (!await sessionIsAvailiable()) {
+        // Throw a SessionExpiredException if the session is not available.
+        throw SessionExpiredException(
+            ident: 'Eeclass', message: 'Session expired');
+      }
       if (data != null) {
         // Perform a POST request if form data is provided.
         var response = await dio.post('$baseUrl/$url', data: data);
@@ -70,10 +76,15 @@ class EeclassCrawler extends Crawler {
   }
 
   /// History Course contains all avaliable semester information
-  Future<String> getHistoryCoursePage({
-    required String courseId,
-  }) async {
+  Future<String> getHistoryCoursePage() async {
     return await fetchPageContent('/dashboard/historyCourse');
+  }
+
+  /// Get course information page 
+  Future<String> getCourseInfoPage({
+    required String courseSerial,
+  }) async {
+    return await fetchPageContent('/course/info/$courseSerial');
   }
 
   /// Get course bulltin List
@@ -118,6 +129,12 @@ class EeclassCrawler extends Crawler {
     required String courseSerial,
   }) async {
     return await fetchPageContent('/course/examList/$courseSerial');
+  }
+
+  Future<String> getQuiz({
+    required String quizUrl,
+  }) async {
+    return await fetchPageContent(quizUrl);
   }
 
   Future<String> getQuizScoreDistribution({
