@@ -33,7 +33,7 @@ abstract class EeclassRepository {
   ///
   /// Returns an [Either] with a [Failure] on error or a list of [EeclssCourseInfo]
   /// containing the available courses for the specified semester.
-  Future<Either<Failure, List<EeclssCourseInfo>>> getCourseList({
+  Future<Either<Failure, List<EeclassCourseInfo>>> getCourseList({
     required String semester,
   });
 
