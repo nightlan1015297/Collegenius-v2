@@ -55,3 +55,12 @@ class SessionExpiredFailure extends Failure {
   /// Constructor for initializing [SessionExpiredFailure] with a specific error [message].
   SessionExpiredFailure({required String message}) : super(message);
 }
+
+/// Represents a failure due to parsing errors.
+/// 
+/// This failure type is used when there is an issue parsing data from a
+/// response or file.
+class ParserFailure extends Failure {
+  /// Constructor for initializing [ParserFailure] with a specific error [message].
+  ParserFailure({required String message}) : super(message);
+}
