@@ -1,4 +1,3 @@
-
 import 'package:collegenius/core/constants.dart';
 import 'package:collegenius/core/error/exceptions.dart';
 import 'package:collegenius/core/error/failures.dart';
@@ -19,106 +18,107 @@ import 'package:collegenius/domain/repositories/auth_repository.dart';
 import 'package:collegenius/domain/repositories/eeclass_repository.dart';
 import 'package:either_dart/either.dart';
 
+/// Implementation of [EeclassRepository].
+///
+/// This class interacts with various data sources, such as crawlers and parsers,
+/// to provide functionalities for fetching assignments, bulletins, quizzes, and
+/// materials related to EE Class courses.
 class EeclassRepositoryImpl implements EeclassRepository {
-  /// Repository for authentication management.
+  /// Repository for managing authentication.
   ///
-  /// This handles session-related tasks, such as renewing sessions when they expire.
+  /// This repository is responsible for handling session-related operations.
   final AuthRepository authRepository;
+
+  /// Crawler for accessing EE Class data from the source.
+  ///
+  /// This handles the raw data extraction (scraping) from EE Class pages.
   final EeclassCrawler eeclassCrawler;
 
+  /// Constructs an [EeclassRepositoryImpl] instance.
+  ///
+  /// Requires [authRepository] for session handling and [eeclassCrawler] for
+  /// data retrieval from EE Class.
   EeclassRepositoryImpl({
     required this.authRepository,
     required this.eeclassCrawler,
   });
 
+  /// Fetches detailed information about a specific assignment.
+  ///
+  /// Parameters:
+  /// - [assignmentUrl]: The URL of the assignment to be fetched.
+  ///
+  /// Returns:
+  /// - A [Future<Either<Failure, EeclassAssignment>>] containing the result.
   @override
-  Future<Either<Failure, EeclassAssignment>> getAssignment(
-      {required String assignmentUrl}) async {
+  Future<Either<Failure, EeclassAssignment>> getAssignment({required String assignmentUrl}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
-      if (!isAvail) {
-        authRepository.renewSession(
-            ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
+      final isAvailable = await sessionIsAvailable(); // Check session availability.
+      if (!isAvailable) {
+        await authRepository.renewSession(ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
-      final String responseBody =
-          await eeclassCrawler.getAssignment(assignmentUrl: assignmentUrl);
-      final EeclassAssignment assignment =
-          EeclassParser.parseAssignment(responseBody).toEntity();
+      final String responseBody = await eeclassCrawler.getAssignment(assignmentUrl: assignmentUrl);
+      final EeclassAssignment assignment = EeclassParser.parseAssignment(responseBody).toEntity();
       return Right(assignment);
     } on ServerException catch (e) {
-      // Handle and return server-related errors.
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.message)); // Handle server errors.
     } on SessionExpiredException catch (e) {
-      // Handle session expiration and return appropriate failure.
-      return Left(SessionExpiredFailure(
-          message:
-              'Could not renew session on ${e.ident} with following error \n ${e.message}'));
+      return Left(SessionExpiredFailure(message: 'Could not renew session on ${e.ident} with the following error:\n${e.message}')); // Handle session expiration.
     } on ParserException catch (e) {
-      return Left(ParserFailure(
-          message:
-              "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message: \n ${e.message}"));
+      return Left(ParserFailure(message: "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message:\n${e.message}")); // Handle parser errors.
     }
   }
 
+  /// Fetches the list of available assignments for a specific course.
+  ///
+  /// Parameters:
+  /// - [courseSerial]: The unique identifier for the course.
+  ///
+  /// Returns:
+  /// - A [Future<Either<Failure, List<EeclassAssignmentInfo>>>] containing the result.
   @override
-  Future<Either<Failure, List<EeclassAssignmentInfo>>> getAssignmentList(
-      {required String courseSerial}) async {
+  Future<Either<Failure, List<EeclassAssignmentInfo>>> getAssignmentList({required String courseSerial}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
-      if (!isAvail) {
-        authRepository.renewSession(
-            ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
+      final isAvailable = await sessionIsAvailable(); // Check session availability.
+      if (!isAvailable) {
+        await authRepository.renewSession(ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
-      final String responseBody = await eeclassCrawler
-          .getCourseAssignmentListPage(courseSerial: courseSerial);
-      final List<EeclassAssignmentInfo> assignmentList =
-          EeclassParser.parseAssignmentList(responseBody)
-              .map((assignment) => assignment.toEntity())
-              .toList();
-      // Convert to domain entities.
+      final String responseBody = await eeclassCrawler.getCourseAssignmentListPage(courseSerial: courseSerial);
+      final List<EeclassAssignmentInfo> assignmentList = EeclassParser.parseAssignmentList(responseBody)
+          .map((assignment) => assignment.toEntity())
+          .toList();
       return Right(assignmentList);
     } on ServerException catch (e) {
-      // Handle and return server-related errors.
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.message)); // Handle server errors.
     } on SessionExpiredException catch (e) {
-      // Handle session expiration and return appropriate failure.
-      return Left(SessionExpiredFailure(
-          message:
-              'Could not renew session on ${e.ident} with following error \n ${e.message}'));
+      return Left(SessionExpiredFailure(message: 'Could not renew session on ${e.ident} with the following error:\n${e.message}')); // Handle session expiration.
     } on ParserException catch (e) {
-      return Left(ParserFailure(
-          message:
-              "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message: \n ${e.message}"));
+      return Left(ParserFailure(message: "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message:\n${e.message}")); // Handle parser errors.
     }
   }
 
+  /// Fetches a list of available semesters from EE Class.
+  ///
+  /// Returns:
+  /// - A [Future<Either<Failure, List<EeclassSemester>>>] containing the available semesters.
   @override
-  Future<Either<Failure, List<EeclassSemester>>> getAvalibleSemester() async {
+  Future<Either<Failure, List<EeclassSemester>>> getAvailableSemester() async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
-      if (!isAvail) {
-        authRepository.renewSession(
-            ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
+      final isAvailable = await sessionIsAvailable(); // Check session availability.
+      if (!isAvailable) {
+        await authRepository.renewSession(ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       final String responseBody = await eeclassCrawler.getHistoryCoursePage();
-      final List<EeclassSemester> semesterList =
-          EeclassParser.parseAvailiableSemester(responseBody)
-              .map((semester) => semester.toEntity())
-              .toList();
-
+      final List<EeclassSemester> semesterList = EeclassParser.parseAvailableSemester(responseBody)
+          .map((semester) => semester.toEntity())
+          .toList();
       return Right(semesterList);
     } on ServerException catch (e) {
-      // Handle and return server-related errors.
-      return Left(ServerFailure(message: e.message));
+      return Left(ServerFailure(message: e.message)); // Handle server errors.
     } on SessionExpiredException catch (e) {
-      // Handle session expiration and return appropriate failure.
-      return Left(SessionExpiredFailure(
-          message:
-              'Could not renew session on ${e.ident} with following error \n ${e.message}'));
+      return Left(SessionExpiredFailure(message: 'Could not renew session on ${e.ident} with the following error:\n${e.message}')); // Handle session expiration.
     } on ParserException catch (e) {
-      return Left(ParserFailure(
-          message:
-              "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message: \n ${e.message}"));
+      return Left(ParserFailure(message: "${e.serviceIdent} Parser, ${e.unitIdent} unit parser failed with message:\n${e.message}")); // Handle parser errors.
     }
   }
 
@@ -126,7 +126,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, List<EeclassBulletinInfo>>> getBulletinList(
       {required String courseSerial, required int page}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -158,7 +158,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, EeclassBulletin>> getBullitin(
       {required String bullitinUrl}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -188,7 +188,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, EeclassCourse>> getCourse(
       {required String courseSerial}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -220,7 +220,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, List<EeclssCourseInfo>>> getCourseList(
       {required String semester}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -254,7 +254,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, EeclassMaterial>> getMaterial(
       {required EeclassMaterialType type, required String materialUrl}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -286,7 +286,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, List<EeclassMaterialInfo>>> getMaterialList(
       {required String courseSerial}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -317,7 +317,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   @override
   Future<Either<Failure, EeclassQuiz>> getQuiz({required String quizUrl}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -349,7 +349,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   Future<Either<Failure, List<EeclassQuizInfo>>> getQuizList(
       {required String courseSerial}) async {
     try {
-      final isAvail = await sessionIsAvaliable(); // Check session availability.
+      final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
         authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
@@ -385,7 +385,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   ///
   /// Returns:
   /// - A [Future<bool>] indicating whether the current session is valid.
-  Future<bool> sessionIsAvaliable() async {
+  Future<bool> sessionIsAvailable() async {
     return await eeclassCrawler
         .sessionIsAvailiable(); // Check session availability.
   }

@@ -24,7 +24,7 @@ abstract class EeclassRepository {
   ///
   /// Returns an [Either] containing either a [Failure] if an error occurs,
   /// or a list of [EeclassSemester] representing the available semesters.
-  Future<Either<Failure, List<EeclassSemester>>> getAvalibleSemester();
+  Future<Either<Failure, List<EeclassSemester>>> getAvailableSemester();
 
   /// Retrieves a list of course information for a given semester.
   ///
