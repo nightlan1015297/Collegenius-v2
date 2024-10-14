@@ -217,7 +217,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
   }
 
   @override
-  Future<Either<Failure, List<EeclssCourseInfo>>> getCourseList(
+  Future<Either<Failure, List<EeclassCourseInfo>>> getCourseList(
       {required String semester}) async {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
@@ -229,7 +229,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
       final String responseBody =
           await eeclassCrawler.getCoursesListPage(semester: semester);
       // Parse course page.
-      final List<EeclssCourseInfo> courseList =
+      final List<EeclassCourseInfo> courseList =
           EeclassParser.parseCourseList(responseBody)
               .map((e) => e.toEntity())
               .toList();
