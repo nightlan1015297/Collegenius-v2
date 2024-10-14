@@ -54,6 +54,12 @@ class CourseSelectCrawler extends Crawler {
   @override
   Future<String> fetchPageContent(String url, {FormData? data}) async {
     try {
+      // Check if the session is available before making the request.
+      if (!await sessionIsAvailiable()) {
+        // Throw a SessionExpiredException if the session is not available.
+        throw SessionExpiredException(
+            ident: 'Course Select', message: 'Session expired');
+      }
       if (data != null) {
         // Perform a POST request if form data is provided.
         var response = await dio.post('$baseUrl/$url', data: data);
