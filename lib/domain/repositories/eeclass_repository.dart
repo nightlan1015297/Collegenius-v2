@@ -68,7 +68,7 @@ abstract class EeclassRepository {
   ///
   /// Returns an [Either] with a [Failure] on error or an [EeclassBulletin] containing
   /// the details of the specified bulletin.
-  Future<Either<Failure, EeclassBulletin>> getBullitin({
+  Future<Either<Failure, EeclassBulletin>> getBulletin({
     required String bullitinUrl,
   });
 
