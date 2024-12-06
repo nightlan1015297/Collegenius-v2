@@ -31,10 +31,10 @@ class CollegeniusDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text('Course Schedule'),
+                    title: const Text('Eeclass'),
                     leading: const Icon(Icons.calendar_today),
                     onTap: () {
-                      print('aaa');
+                      Navigator.of(context).pushNamed('/eeclass');
                     },
                   ),
                   ListTile(
