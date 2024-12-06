@@ -35,7 +35,8 @@ migrate_working_dir/
 /lib/data/eeclass_api_client.dart
 /lib/data/portal_api.dart
 /lib/data/school_events_api_client.dart
-
+/lib/dump_codebase.sh
+lib/codebase.txt
 # Symbolication related
 app.*.symbols
 
