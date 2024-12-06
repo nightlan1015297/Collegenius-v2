@@ -352,7 +352,7 @@ class CourseScheduleSelectors extends StatelessWidget {
                       return DropdownMenuItem<Semester>(
                         value: semester,
                         child: Text(semester.semesterName,
-                            style: theme.textTheme.labelLarge),
+                            style: theme.textTheme.bodyMedium),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -387,7 +387,7 @@ class CourseScheduleSelectors extends StatelessWidget {
                         value: day,
                         child: Text(
                           day.name,
-                          style: theme.textTheme.labelLarge,
+                          style: theme.textTheme.bodyMedium,
                         ),
                       );
                     }).toList(),
