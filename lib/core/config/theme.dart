@@ -51,17 +51,17 @@ class CollegeniusTheme {
           overflow: TextOverflow.ellipsis,
         ),
         labelSmall: const TextStyle(
-          color: Colors.white,
+          color: Colors.white60,
           fontWeight: FontWeight.bold,
           overflow: TextOverflow.ellipsis,
         ),
         labelMedium: const TextStyle(
-          color: Colors.white,
+          color: Colors.white60,
           fontWeight: FontWeight.bold,
           overflow: TextOverflow.ellipsis,
         ),
         labelLarge: const TextStyle(
-          color: Colors.white,
+          color: Colors.white60,
           fontWeight: FontWeight.bold,
           overflow: TextOverflow.ellipsis,
         ),
