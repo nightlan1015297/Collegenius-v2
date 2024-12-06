@@ -111,7 +111,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
       final String responseBody = await eeclassCrawler.getHistoryCoursePage();
       final List<EeclassSemester> semesterList = EeclassParser.parseAvailableSemester(responseBody)
           .map((semester) => semester.toEntity())
-          .toList();
+          .toList().sublist(1);
       return Right(semesterList);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message)); // Handle server errors.
@@ -128,7 +128,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       final String responseBody = await eeclassCrawler
@@ -155,12 +155,12 @@ class EeclassRepositoryImpl implements EeclassRepository {
   }
 
   @override
-  Future<Either<Failure, EeclassBulletin>> getBullitin(
+  Future<Either<Failure, EeclassBulletin>> getBulletin(
       {required String bullitinUrl}) async {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       final String responseBody =
@@ -190,7 +190,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
@@ -222,7 +222,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
@@ -256,7 +256,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
@@ -288,7 +288,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
@@ -319,7 +319,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
@@ -351,7 +351,7 @@ class EeclassRepositoryImpl implements EeclassRepository {
     try {
       final isAvail = await sessionIsAvailable(); // Check session availability.
       if (!isAvail) {
-        authRepository.renewSession(
+        await authRepository.renewSession(
             ident: WebsiteIdentifier.eeclass); // Renew session if unavailable.
       }
       // Get course page.
