@@ -1,6 +1,11 @@
 import 'package:collegenius/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:collegenius/presentation/bloc/eeclass/eeclass_bloc.dart';
+import 'package:collegenius/presentation/bloc/eeclass_bulletins/eeclass_bulletins_bloc.dart';
+import 'package:collegenius/presentation/bloc/eeclass_course/eeclass_course_bloc.dart';
+import 'package:collegenius/presentation/bloc/eeclass_quizzes/eeclass_quizzes_bloc.dart';
 import 'package:collegenius/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:collegenius/presentation/pages/course_schedule_page.dart';
+import 'package:collegenius/presentation/pages/eeclass_home_page.dart';
 import 'package:collegenius/presentation/pages/homepage.dart';
 import 'package:collegenius/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +34,11 @@ class MyApp extends StatelessWidget {
       // Provide the AuthBloc to the widget tree to handle authentication states.
       providers: [
         BlocProvider<AuthBloc>(create: (context) => di.sl<AuthBloc>()),
-        BlocProvider<ScheduleBloc>(create: (context) => di.sl<ScheduleBloc>())
+        BlocProvider<ScheduleBloc>(create: (context) => di.sl<ScheduleBloc>()),
+        BlocProvider<EeclassBloc>(create: (context) => di.sl<EeclassBloc>()),
+        BlocProvider<EeclassCourseBloc>(create: (context) => di.sl<EeclassCourseBloc>()),
+        BlocProvider<EeclassQuizzesBloc>(create: (context) => di.sl<EeclassQuizzesBloc>()),
+        BlocProvider<EeclassBulletinsBloc>(create: (context) => di.sl<EeclassBulletinsBloc>()),
       ],
       child: MaterialApp(
         title: 'Collegenius', // Updated the app title for accuracy.
@@ -42,7 +51,8 @@ class MyApp extends StatelessWidget {
               const LoginPage(), // Login page as the initial route.
           '/': (context) => const HomePage(),
           '/courseschedule': (context) =>
-              const CourseSchedulePage() // Home page route.
+              const CourseSchedulePage(),// Home page route.
+          '/eeclass': (context) => const EeclassHomePage(),
         },
       ),
     );
