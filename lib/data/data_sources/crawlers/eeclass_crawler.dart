@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 /// implementations for fetching page content and checking session availability.
 class EeclassCrawler extends Crawler {
   final Dio dio; // An instance of Dio for making HTTP requests.
-  final String baseUrl = 'https://eeclass.ncu.edu.tw'; // Base URL for EEClass.
+  final String baseUrl = 'https://ncueeclass.ncu.edu.tw'; // Base URL for EEClass.
 
   /// Constructs an [EeclassCrawler] with the given [dio] instance.
   ///
@@ -33,11 +33,11 @@ class EeclassCrawler extends Crawler {
       }
       if (data != null) {
         // Perform a POST request if form data is provided.
-        var response = await dio.post('$baseUrl/$url', data: data);
+        var response = await dio.post('$baseUrl$url', data: data);
         return response.data.toString();
       } else {
         // Perform a GET request if no form data is provided.
-        var response = await dio.get('$baseUrl/$url');
+        var response = await dio.get('$baseUrl$url');
         return response.data.toString();
       }
     } catch (e) {
@@ -56,7 +56,7 @@ class EeclassCrawler extends Crawler {
   /// Returns `true` if the session is available, otherwise `false`.
   @override
   Future<bool> sessionIsAvailiable() async {
-    var res = await dio.get('/index/login');
+    var res = await dio.get('$baseUrl/index/login');
     return res.isRedirect;
   }
 
