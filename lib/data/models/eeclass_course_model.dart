@@ -95,12 +95,15 @@ class EeclassCourseModel {
       division: map['division'] as String? ?? '',
       classes: map['classes'] as String? ?? '',
       members: map['members'] as int? ?? 0,
+      /// Instructor and assistant names are stored in the list index 0 
+      /// The second index is the instructor/assistant department
+      /// TODO: Implement instructor/assistent entity and model to handel this
       instructors: (map['instructors'] as List<dynamic>?)
-              ?.map((instructor) => instructor as String)
+              ?.map((instructor) => instructor[0] as String)
               .toList() ??
           [],
       assistants: (map['assistants'] as List<dynamic>?)
-              ?.map((assistant) => assistant as String)
+              ?.map((assistant) => assistant[0] as String)
               .toList() ??
           [],
       description: map['description'] as String? ?? '',
